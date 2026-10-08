@@ -22,6 +22,9 @@ namespace mini_inventory_project
                     case 1:
                         viewItems();
                         break;
+                    case 2:
+                        addItem();
+                        break;
                     case 7:
                         running = false;
                         break;
@@ -62,18 +65,60 @@ namespace mini_inventory_project
                 {
                     return number;
                 }
+                Console.WriteLine("Please enter a whole number.");
+            }
+        }
+
+        static double readDouble(string prompt)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                string input = Console.ReadLine();
+                if (double.TryParse(input, out double number))
+                {
+                    return number;
+                }
+                Console.WriteLine("Please enter a whole number.");
             }
         }
 
         static void viewItems()
         {
-            Console.WriteLine($"Item Count: {names.Count}");
-            Console.WriteLine($"First Item: {names[0]}, {quantities[1]}, {prices[1]}");
+            if (names.Count == 0)
+            {
+                Console.WriteLine("\nNo items yet.\n");
+                return;
+            }
+            Console.WriteLine();
+            for (int i = 0; i < names.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {names[i]}, {quantities[i]}, {prices[i]}");
+            }
+            Console.WriteLine();
         }
 
         static void addItem()
         {
+            Console.Write("Item name: ");
+            string name = Console.ReadLine();
+            int quantity = readInt("Item quantity: ");
+            if (quantity < 0)
+            {
+                Console.WriteLine("\nValue cannot be negative.\n");
+                return;
+            }
+            double price = readDouble("Item price: ");
+            if (price < 0)
+            {
+                Console.WriteLine("\nValue cannot be negative.\n");
+                return;
+            }
+            Console.WriteLine("\nAdded.\n");
 
+            names.Add(name);
+            quantities.Add(quantity);
+            prices.Add(price);
         }
 
     }

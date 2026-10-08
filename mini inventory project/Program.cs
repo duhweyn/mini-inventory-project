@@ -1,42 +1,55 @@
-﻿namespace mini_inventory_project
+﻿using System.Threading.Channels;
+
+namespace mini_inventory_project
 {
     internal class Program
     {
-        static int stock = 10;
+        static List<string> names = new List<string>();
+        static List<int> quantities = new List<int>();
+        static List<double> prices = new List<double>();
 
         static void Main(string[] args)
         {
-            bool running = true;
+            loadSampleData();
 
+            bool running = true;
             while (running)
             {
                 showMenu();
                 int choice = readInt("Choose: ");
-
                 switch (choice)
                 {
                     case 1:
-                        addStock();
+                        viewItems();
                         break;
-                    case 2:
-                        removeStock();
-                        break;
-                    case 3:
-                        Console.WriteLine($"Current Stock: {stock}");
-                        break;
-                    case 4:
+                    case 7:
                         running = false;
-                        break;
-                    default:
-                        Console.WriteLine("no idea how this was triggered");
                         break;
                 }
             }
         }
 
+        static void loadSampleData()
+        {
+            names.Add("Coffee Beans");
+            quantities.Add(12);
+            prices.Add(450);
+
+            names.Add("Milk");
+            quantities.Add(3);
+            prices.Add(320);
+        }
+
         static void showMenu()
         {
-            Console.WriteLine("1. Add Stock\n2. Remove Stock\n3. Show Stock\n4. Exit");
+            Console.WriteLine("" +
+                "1. View Items\n" +
+                "2. Add Item\n" +
+                "3. Update Item Quantity\n" +
+                "4. Remove Item\n" +
+                "5. Search\n" +
+                "6. Show Low-Stock\n" +
+                "7. Exit");
         }
 
         static int readInt(string prompt)
@@ -49,35 +62,18 @@
                 {
                     return number;
                 }
-                Console.WriteLine("Please enter a whole number.");
             }
         }
 
-        static void addStock()
+        static void viewItems()
         {
-            int amount = readInt("Amount to add: ");
-            if (amount < 0)
-            {
-                Console.WriteLine("Amount cannot be negative.");
-                return;
-            }
-            stock += amount;
-            Console.WriteLine($"You added: {amount}. Current stock: {stock}");
+            Console.WriteLine($"Item Count: {names.Count}");
+            Console.WriteLine($"First Item: {names[0]}, {quantities[1]}, {prices[1]}");
         }
 
-        static void removeStock()
+        static void addItem()
         {
-            int amount = readInt("Amount to remove: ");
-            if (amount > stock)
-            {
-                Console.WriteLine("Amount cannot be greater than remaining stock.");
-                return;
-            } else if (amount < 0)
-            {
-                Console.WriteLine("Amount cannot be negative.");
-            }
-            stock -= amount;
-            Console.WriteLine($"You deducted: {amount}. Current stock: {stock}");
+
         }
 
     }
